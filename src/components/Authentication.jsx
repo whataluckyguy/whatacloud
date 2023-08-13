@@ -5,22 +5,43 @@ import axios from "axios";
 function Authentication() {
   const [user, setUser] = useState(false);
 
-  const handleSubmit = (e) => {
+  const onInputChange = async (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(user);
   };
 
   return (
     <div>
       <h1>Login</h1>
-      <form>
+      <form
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}
+      >
         <label htmlFor="email">Email</label>
-        <input type="email" name="" id="email" />
+        <input
+          type="email"
+          name="email"
+          id="email"
+          onChange={(e) => {
+            onInputChange(e);
+          }}
+        />
         <label htmlFor="password">Password</label>
-        <input type="password" name="" id="password" />
-        {/* <button type="submit">Submit</button> */}
+        <input
+          type="password"
+          name="password"
+          id="password"
+          onChange={(e) => {
+            onInputChange(e);
+          }}
+        />
         <input type="submit" value="submit" />
       </form>
-      {/* {username ? <h1>Logged in as {username}</h1> : null} */}
     </div>
   );
 }
