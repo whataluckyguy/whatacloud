@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import "./Authentication.css";
 import axios from "axios";
 
-function Authentication() {
-  const [user, setUser] = useState(false);
+function Authentication({ setUser }) {
   const [data, setData] = useState(null);
 
   const onInputChange = async (e) => {
@@ -27,7 +26,7 @@ function Authentication() {
       .get("http://localhost:3000/api", config)
       .then((res) => {
         setUser(true);
-        console.log("Authentication successful");
+        localStorage.setItem("user", res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -62,8 +61,6 @@ function Authentication() {
         />
         <input type="submit" value="submit" />
       </form>
-
-      {user ? <h1>Logged in</h1> : <h1>Not logged in</h1>}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import "./Files.css";
 
 const filetypes = ["JPG", "PNG", "GIF"];
 
-function Files() {
+function Files({ setUser }) {
   const [file, setFile] = useState([]);
 
   const handleFile = (files) => {
@@ -13,15 +13,26 @@ function Files() {
 
   return (
     <div>
-      <h1>Welcome to my cloud storage</h1>
+      <div className="welcome">
+        <h1>Welcome to my cloud storage</h1>
+        <button
+          className="signout"
+          onClick={() => {
+            setUser(false);
+            localStorage.removeItem("user");
+          }}
+        >
+          Sign Out
+        </button>
+      </div>
       <FileUploader
         types={filetypes}
         handleChange={handleFile}
         className="dndfile"
       />
       <hr />
-      {file.map((item) => (
-        <img src={item} height={200} className="imageElement" />
+      {file.map((item, index) => (
+        <img key={index} src={item} height={200} className="imageElement" />
       ))}
     </div>
   );
