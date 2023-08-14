@@ -4,14 +4,34 @@ import axios from "axios";
 
 function Authentication() {
   const [user, setUser] = useState(false);
+  const [data, setData] = useState(null);
 
   const onInputChange = async (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      params: {
+        userid: data.email,
+        password: data.password,
+      },
+    };
+
+    axios
+      .get("http://localhost:3000/api", config)
+      .then((res) => {
+        setUser(true);
+        console.log("Authentication successful");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -42,6 +62,8 @@ function Authentication() {
         />
         <input type="submit" value="submit" />
       </form>
+
+      {user ? <h1>Logged in</h1> : <h1>Not logged in</h1>}
     </div>
   );
 }
