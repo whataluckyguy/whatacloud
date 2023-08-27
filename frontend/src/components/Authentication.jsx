@@ -5,8 +5,19 @@ import axios from "axios";
 function Authentication({ setUser }) {
   const [data, setData] = useState(null);
 
-  const onInputChange = async (e) => {
+  const onInputChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const upload = async () => {
+    axios
+      .post("http://localhost:5000/upload")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleSubmit = async (e) => {
@@ -21,12 +32,12 @@ function Authentication({ setUser }) {
         password: data.password,
       },
     };
-
+    console.log(config);
     axios
-      .get("http://localhost:3000/api", config)
+      .post("http://localhost:5000/auth", config)
       .then((res) => {
-        setUser(true);
-        localStorage.setItem("user", res.data);
+        console.log(res.data);
+        // setData(null);
       })
       .catch((err) => {
         console.log(err);
@@ -36,6 +47,8 @@ function Authentication({ setUser }) {
   return (
     <div>
       <h1>Login</h1>
+      <button onClick={handleSubmit}>login</button>
+      <button onClick={upload}>upload</button>
       <form
         onSubmit={(e) => {
           handleSubmit(e);
